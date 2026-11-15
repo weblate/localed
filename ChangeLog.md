@@ -2,6 +2,17 @@
 
 All notable changes to `localed` are documented in this file.
 
+## [0.3.rc1] - 2026-11-15
+
+Follow-up release candidate for localed 0.3.0.
+
+### Fixed
+- Preserve commas in D-Bus property values displayed by `localectl status`.
+  The GVariant unwrapping helper no longer removes commas from values such as
+  multi-layout X11 keyboard settings (for example, `us,es`).
+- Remove only the trailing comma used by the GVariant tuple representation,
+  without altering commas that are part of the returned property value.
+
 ## [0.3.rc] - 2026-11-09
 
 Release candidate for localed 0.3.0.

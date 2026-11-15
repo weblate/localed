@@ -1,7 +1,7 @@
 project(
   'localed',
   'c',
-  version         : '0.3.rc',
+  version         : '0.3.rc1',
   license         : 'GPL-2.0-or-later',
   meson_version   : '>= 0.58.0',
   default_options : [

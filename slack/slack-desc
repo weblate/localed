@@ -13,7 +13,8 @@ localed: keyboard configuration. It implements the
 localed: org.freedesktop.locale1 D-Bus interface as a drop-in
 localed: replacement for systemd-localed on systems without systemd.
 localed:
-localed: It supports PolKit authentication and manages locale.conf,
-localed: vconsole.conf, and X11 keyboard layout configuration.
+localed: It supports PolKit authentication and manages Slackware locale
+localed: scripts, console keymaps, and X11 keyboard configuration. Optional
+localed: GNOME and KDE Plasma 6 input-source backends are available.
 localed:
 localed:
