@@ -36,6 +36,8 @@ Release candidate for localed 0.3.0.
   backend start/stop lifecycle coverage. Run the Plasma-enabled Slackware
   build and test suite before considering this work complete.
 
+## [0.3.beta]
+
 ### Fixed
 - Reject configuration snapshots when the file pathname is removed or atomically
   replaced while its original inode is being read. Confirm the opened inode
@@ -164,6 +166,62 @@ Release candidate for localed 0.3.0.
   Shutdown cancels pending checks, and callbacks recheck cancellation before
   applying settings to close authorization/reconnect races.
 
+
+### Documentation
+- Correct the README and manual pages to describe Slackware's actual locale
+  and keyboard files instead of the systemd-specific `locale.conf` and
+  `vconsole.conf` paths.
+- Document that `localectl` uses the locale1 system D-Bus interface and
+  Polkit authorization, and clarify the optional AccountsService integration
+  and its authorization boundary.
+- Update build and test instructions, dependencies, and the source-tree
+  overview for the standalone AccountsService module and opt-in Meson tests.
+
+### Changed
+- Move AccountsService monitoring and language synchronization into a
+  dedicated `RclAccountsService` GObject. The module owns its system-bus
+  connection, name watch, signal subscription, reconnection, and cleanup;
+  `main.c` now only starts and releases the integration.
+
+### Fixed
+- Watch the AccountsService D-Bus name and subscribe to language-property
+  changes when the service appears. Unsubscribe when it disappears so the
+  bridge recovers when AccountsService starts after localed or restarts.
+
+### Security
+- Clarify the AccountsService authorization boundary: property-change signals
+  do not identify the original caller, so the bridge cannot perform
+  caller-based Polkit authorization. Only propagate changes for accounts in
+  the configured privileged group, matching the installed localed Polkit
+  rule; other users must request system-wide changes through locale1.SetLocale.
+
+### Fixed
+- Treat failures reading the existing `lang.sh` as errors instead of silently
+  replacing the file without preserving its existing non-locale settings. A
+  missing file remains a valid first-use case.
+- Make locale updates transactional across `lang.sh` and `lang.csh`. If the
+  second write fails, restore the original Bourne-shell locale file.
+- Make console-keymap updates transactional across `rc.keymap` and its toggle
+  sidecar. If the sidecar update fails, restore the original console keymap.
+- Make requested X11/console keyboard conversions transactional. A failure
+  updating either side is returned to the D-Bus caller instead of being logged
+  and silently reported as success.
+- Refresh cached D-Bus properties after failed writes so they reflect the
+  actual on-disk state, including when rollback itself cannot be completed.
+- Include rollback failures in the returned error and release the associated
+  error objects.
+
+### Changed
+- Preserve existing permission bits when atomically replacing `lang.sh`,
+  `lang.csh`, `rc.keymap`, the keymap toggle sidecar, and the X11 keyboard
+  configuration. First-time files retain their established defaults; unexpected
+  destination-stat errors now fail the write instead of silently changing mode.
+- Add GLib regression tests for preserving existing modes, first-create defaults,
+  and failing safely when the destination cannot be inspected.
+- Set the Meson project and SlackBuild default package version to `0.3.0` for
+  development on the `0.3.0` branch.
+
+## [0.3.alpha]
 
 ### Documentation
 - Correct the README and manual pages to describe Slackware's actual locale
