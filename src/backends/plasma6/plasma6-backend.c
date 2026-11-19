@@ -10,7 +10,6 @@
  */
 
 #include "config.h"
-#include <glib/gi18n-lib.h>
 
 #include <errno.h>
 #include <string.h>
