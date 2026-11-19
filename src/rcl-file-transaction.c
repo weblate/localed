@@ -10,6 +10,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #ifdef RCL_FILE_TRANSACTION_TESTING
 static RclFileTransactionTestOps test_ops;
@@ -45,7 +46,7 @@ rcl_file_cleanup_temporary ( const gchar *path, GError **error )
     return;
 
   g_set_error( &cleanup_error, G_IO_ERROR, g_io_error_from_errno(errno),
-               "remove temporary file %s: %s", path, g_strerror(errno) );
+               _("remove temporary file %s: %s"), path, g_strerror(errno) );
 
   if( error && *error )
   {
@@ -90,7 +91,7 @@ rcl_file_close_temporary ( int fd, const gchar *temporary_path,
 
     g_set_error( &close_error, G_IO_ERROR,
                  g_io_error_from_errno(saved_errno),
-                 "close temporary file for %s: %s",
+                 _("close temporary file for %s: %s"),
                  destination_path, g_strerror(saved_errno) );
 
     /*
@@ -158,7 +159,7 @@ rcl_file_snapshot_take ( RclFileSnapshot *snapshot,
       if( g_stat( path, &st ) == 0 )
       {
         g_set_error( error, G_IO_ERROR, G_IO_ERROR_BUSY,
-                     "file %s appeared while its snapshot was being opened",
+                     _("file %s appeared while its snapshot was being opened"),
                      path );
         rcl_file_snapshot_clear( snapshot );
         return FALSE;
@@ -174,7 +175,7 @@ rcl_file_snapshot_take ( RclFileSnapshot *snapshot,
     }
 
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(saved_errno),
-                 "open snapshot %s: %s", path, g_strerror(saved_errno) );
+                 _("open snapshot %s: %s"), path, g_strerror(saved_errno) );
     rcl_file_snapshot_clear( snapshot );
     return FALSE;
   }
@@ -182,7 +183,7 @@ rcl_file_snapshot_take ( RclFileSnapshot *snapshot,
   if( fstat( fd, &st ) != 0 )
   {
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                 "stat snapshot %s: %s", path, g_strerror(errno) );
+                 _("stat snapshot %s: %s"), path, g_strerror(errno) );
     goto out;
   }
 
@@ -197,7 +198,7 @@ rcl_file_snapshot_take ( RclFileSnapshot *snapshot,
     if( n < 0 )
     {
       g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                   "read snapshot %s: %s", path, g_strerror(errno) );
+                   _("read snapshot %s: %s"), path, g_strerror(errno) );
       g_string_free( contents, TRUE );
       goto out;
     }
@@ -222,11 +223,11 @@ rcl_file_snapshot_take ( RclFileSnapshot *snapshot,
 
       if( saved_errno == ENOENT )
         g_set_error( error, G_IO_ERROR, G_IO_ERROR_BUSY,
-                     "file %s was removed while its snapshot was being read",
+                     _("file %s was removed while its snapshot was being read"),
                      path );
       else
         g_set_error( error, G_IO_ERROR, g_io_error_from_errno(saved_errno),
-                     "stat snapshot path %s: %s",
+                     _("stat snapshot path %s: %s"),
                      path, g_strerror(saved_errno) );
 
       g_string_free( contents, TRUE );
@@ -236,7 +237,7 @@ rcl_file_snapshot_take ( RclFileSnapshot *snapshot,
     if( st.st_dev != path_after.st_dev || st.st_ino != path_after.st_ino )
     {
       g_set_error( error, G_IO_ERROR, G_IO_ERROR_BUSY,
-                   "file %s was replaced while its snapshot was being read",
+                   _("file %s was replaced while its snapshot was being read"),
                    path );
       g_string_free( contents, TRUE );
       goto out;
@@ -251,7 +252,7 @@ rcl_file_snapshot_take ( RclFileSnapshot *snapshot,
   if( fstat( fd, &st_after ) != 0 )
   {
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                 "re-stat snapshot %s: %s", path, g_strerror(errno) );
+                 _("re-stat snapshot %s: %s"), path, g_strerror(errno) );
     g_string_free( contents, TRUE );
     goto out;
   }
@@ -265,7 +266,7 @@ rcl_file_snapshot_take ( RclFileSnapshot *snapshot,
       st.st_ctim.tv_nsec != st_after.st_ctim.tv_nsec )
   {
     g_set_error( error, G_IO_ERROR, G_IO_ERROR_BUSY,
-                 "file %s changed while its snapshot was being read", path );
+                 _("file %s changed while its snapshot was being read"), path );
     g_string_free( contents, TRUE );
     goto out;
   }
@@ -282,7 +283,7 @@ out:
   if( close( fd ) != 0 && ok )
   {
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                 "close snapshot %s: %s", path, g_strerror(errno) );
+                 _("close snapshot %s: %s"), path, g_strerror(errno) );
     ok = FALSE;
   }
 
@@ -308,7 +309,7 @@ rcl_file_snapshot_restore ( const RclFileSnapshot *snapshot,
     if( g_unlink( snapshot->path ) != 0 && errno != ENOENT )
     {
       g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                   "remove %s during rollback: %s",
+                   _("remove %s during rollback: %s"),
                    snapshot->path, g_strerror(errno) );
       return FALSE;
     }
@@ -325,7 +326,7 @@ rcl_file_snapshot_restore ( const RclFileSnapshot *snapshot,
   if( fd == -1 )
   {
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                 "create rollback temporary file for %s: %s",
+                 _("create rollback temporary file for %s: %s"),
                  snapshot->path, g_strerror(errno) );
     g_free( tmp_path );
     return FALSE;
@@ -338,7 +339,7 @@ rcl_file_snapshot_restore ( const RclFileSnapshot *snapshot,
   {
     int saved_errno = errno;
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(saved_errno),
-                 "close rollback temporary file %s: %s",
+                 _("close rollback temporary file %s: %s"),
                  tmp_path, g_strerror(saved_errno) );
     rcl_file_cleanup_temporary( tmp_path, error );
     g_free( tmp_path );
@@ -357,20 +358,20 @@ rcl_file_snapshot_restore ( const RclFileSnapshot *snapshot,
   {
     int saved_errno = errno;
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(saved_errno),
-                 "restore ownership on temporary file for %s: %s", snapshot->path, g_strerror(saved_errno) );
+                 _("restore ownership on temporary file for %s: %s"), snapshot->path, g_strerror(saved_errno) );
     goto out;
   }
   if( TP( tmp_path, snapshot->mode ) != 0 )
   {
     int saved_errno = errno;
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(saved_errno),
-                 "restore permissions on temporary file for %s: %s", snapshot->path, g_strerror(saved_errno) );
+                 _("restore permissions on temporary file for %s: %s"), snapshot->path, g_strerror(saved_errno) );
     goto out;
   }
   if( TR( tmp_path, snapshot->path ) != 0 )
   {
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                 "rollback rename(%s, %s): %s",
+                 _("rollback rename(%s, %s): %s"),
                  tmp_path, snapshot->path, g_strerror(errno) );
     goto out;
   }

@@ -1,7 +1,17 @@
 # Files containing translatable strings.
 # Paths are relative to the project root.
 # Run 'ninja -C build localed-pot' to regenerate localed.pot after editing.
+# Keep both desktop backends listed regardless of the selected build option.
 
 src/main.c
 src/rcl-locale.c
+src/rcl-accounts-service.c
+src/rcl-file-transaction.c
+src/rcl-xkb-config.c
+src/backends/backend-interface.c
+src/backends/input-sources-helper.c
+src/backends/gnome/gnome-backend.c
+src/backends/gnome/gnome-input-sources-helper.c
+src/backends/plasma6/plasma6-backend.c
+src/backends/plasma6/plasma6-input-sources-helper.c
 data/org.freedesktop.locale1.policy

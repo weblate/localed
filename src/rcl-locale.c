@@ -465,7 +465,7 @@ write_x11_keyboard_conf( const gchar *path,
   if( g_mkdir_with_parents( dir, 0755 ) != 0 && errno != EEXIST )
   {
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                 "mkdir -p %s: %s", dir, g_strerror(errno) );
+                 _("mkdir -p %s: %s"), dir, g_strerror(errno) );
     g_free( dir );
     return FALSE;
   }
@@ -488,7 +488,7 @@ write_x11_keyboard_conf( const gchar *path,
     {
       int saved_errno = errno;
       g_set_error( error, G_IO_ERROR, g_io_error_from_errno(saved_errno),
-                   "create temporary file for %s: %s",
+                   _("create temporary file for %s: %s"),
                    path, g_strerror(saved_errno) );
       g_free( tmp_path );
       g_string_free( out, TRUE );
@@ -519,7 +519,7 @@ write_x11_keyboard_conf( const gchar *path,
     {
       int saved_errno = errno;
       g_set_error( error, G_IO_ERROR, g_io_error_from_errno(saved_errno),
-                   "rename(%s, %s): %s",
+                   _("rename(%s, %s): %s"),
                    tmp_path, path, g_strerror(saved_errno) );
       ok = FALSE;
     }
@@ -655,7 +655,7 @@ rcl_write_rc_keymap( const gchar *path, const gchar *keymap, GError **error )
   if( g_mkdir_with_parents( dir, 0755 ) != 0 && errno != EEXIST )
   {
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                 "mkdir -p %s: %s", dir, g_strerror(errno) );
+                 _("mkdir -p %s: %s"), dir, g_strerror(errno) );
     g_free( dir );
     return FALSE;
   }
@@ -680,7 +680,7 @@ rcl_write_rc_keymap( const gchar *path, const gchar *keymap, GError **error )
     if( fd == -1 )
     {
       g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                   "create temporary file for %s: %s", path, g_strerror(errno) );
+                   _("create temporary file for %s: %s"), path, g_strerror(errno) );
       g_free( tmp_path );
       g_string_free( out, TRUE );
       return FALSE;
@@ -705,7 +705,7 @@ rcl_write_rc_keymap( const gchar *path, const gchar *keymap, GError **error )
     if( ok && rcl_locale_rename( tmp_path, path ) != 0 )
     {
       g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                   "rename(%s, %s): %s", tmp_path, path, g_strerror(errno) );
+                   _("rename(%s, %s): %s"), tmp_path, path, g_strerror(errno) );
       ok = FALSE;
     }
   }
@@ -761,7 +761,7 @@ rcl_write_rc_keymap_toggle( const gchar *path,
     if( g_unlink( path ) != 0 && errno != ENOENT )
     {
       g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                   "unlink(%s): %s", path, g_strerror(errno) );
+                   _("unlink(%s): %s"), path, g_strerror(errno) );
       return FALSE;
     }
     return TRUE;
@@ -777,7 +777,7 @@ rcl_write_rc_keymap_toggle( const gchar *path,
     if( fd == -1 )
     {
       g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                   "create temporary file for %s: %s", path, g_strerror(errno) );
+                   _("create temporary file for %s: %s"), path, g_strerror(errno) );
       g_free( tmp_path );
       return FALSE;
     }
@@ -803,7 +803,7 @@ rcl_write_rc_keymap_toggle( const gchar *path,
       if( ok && rcl_locale_rename( tmp_path, path ) != 0 )
       {
         g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                     "rename(%s, %s): %s", tmp_path, path, g_strerror(errno) );
+                     _("rename(%s, %s): %s"), tmp_path, path, g_strerror(errno) );
         ok = FALSE;
       }
     }
@@ -1026,7 +1026,7 @@ rcl_write_lang_sh( const gchar         *path,
   if( g_mkdir_with_parents( dir, 0755 ) != 0 && errno != EEXIST )
   {
     g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                 "mkdir -p %s: %s", dir, g_strerror(errno) );
+                 _("mkdir -p %s: %s"), dir, g_strerror(errno) );
     g_free( dir );
     return FALSE;
   }
@@ -1138,7 +1138,7 @@ rcl_write_lang_sh( const gchar         *path,
     if( fd == -1 )
     {
       g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                   "create temporary file for %s: %s", path, g_strerror(errno) );
+                   _("create temporary file for %s: %s"), path, g_strerror(errno) );
       g_free( tmp_path );
       g_string_free( out, TRUE );
       return FALSE;
@@ -1167,7 +1167,7 @@ rcl_write_lang_sh( const gchar         *path,
     if( ok && rcl_locale_rename( tmp_path, path ) != 0 )
     {
       g_set_error( error, G_IO_ERROR, g_io_error_from_errno(errno),
-                   "rename(%s, %s): %s", tmp_path, path, g_strerror(errno) );
+                   _("rename(%s, %s): %s"), tmp_path, path, g_strerror(errno) );
       ok = FALSE;
     }
   }
@@ -1201,7 +1201,7 @@ rcl_write_lang_csh( const gchar         *path,
   if( g_mkdir_with_parents(dir, 0755) != 0 && errno != EEXIST )
   {
     g_set_error(error, G_IO_ERROR, g_io_error_from_errno(errno),
-                "mkdir -p %s: %s", dir, g_strerror(errno));
+                _("mkdir -p %s: %s"), dir, g_strerror(errno));
     g_free(dir);
     return FALSE;
   }
@@ -1241,7 +1241,7 @@ rcl_write_lang_csh( const gchar         *path,
     if( fd == -1 )
     {
       g_set_error(error, G_IO_ERROR, g_io_error_from_errno(errno),
-                  "create temporary file for %s: %s", path, g_strerror(errno));
+                  _("create temporary file for %s: %s"), path, g_strerror(errno));
       g_free(tmp_path);
       g_string_free(out, TRUE);
       return FALSE;
@@ -1260,7 +1260,7 @@ rcl_write_lang_csh( const gchar         *path,
   if( ok && g_rename(tmp_path, path) != 0 )
   {
     g_set_error(error, G_IO_ERROR, g_io_error_from_errno(errno),
-                "rename(%s, %s): %s", tmp_path, path, g_strerror(errno));
+                _("rename(%s, %s): %s"), tmp_path, path, g_strerror(errno));
     ok = FALSE;
   }
   if( !ok )
@@ -1755,7 +1755,7 @@ rcl_locale_daemon_set_language_from_accounts( RclLocaleDaemon *daemon,
   if (!language || !rcl_locale_value_is_safe(language))
   {
     g_set_error_literal(error, G_DBUS_ERROR, G_DBUS_ERROR_INVALID_ARGS,
-                        "Invalid locale value from AccountsService");
+                        _("Invalid locale value from AccountsService"));
     return FALSE;
   }
 
@@ -1933,7 +1933,7 @@ rcl_locale_daemon_set_vconsole_keyboard_internal(
        !rcl_keyboard_value_is_safe(keymap_toggle)))
   {
     g_set_error_literal(error, G_DBUS_ERROR, G_DBUS_ERROR_INVALID_ARGS,
-                        "Invalid console keyboard configuration value");
+                        _("Invalid console keyboard configuration value"));
     return FALSE;
   }
 
@@ -1965,7 +1965,7 @@ rcl_locale_daemon_set_x11_keyboard_internal(
   if (!rcl_x11_keyboard_values_are_valid(layout, model, variant, options))
   {
     g_set_error_literal(error, G_DBUS_ERROR, G_DBUS_ERROR_INVALID_ARGS,
-                        "Invalid X11 keyboard configuration value");
+                        _("Invalid X11 keyboard configuration value"));
     return FALSE;
   }
 
@@ -2318,7 +2318,7 @@ handle_get_property( GDBusConnection  *connection,
 #undef RETURN_STR
 
   g_set_error( error, G_DBUS_ERROR, G_DBUS_ERROR_UNKNOWN_PROPERTY,
-               "Unknown property '%s'", property_name );
+               _("Unknown property '%s'"), property_name );
   return NULL;
 }
 
@@ -2334,7 +2334,7 @@ handle_set_property( GDBusConnection  *connection,
                      gpointer          user_data )
 {
   g_set_error( error, G_DBUS_ERROR, G_DBUS_ERROR_PROPERTY_READ_ONLY,
-               "Property '%s' is read-only; use the Set* methods", property_name );
+               _("Property '%s' is read-only; use the Set* methods"), property_name );
   return FALSE;
 }
 

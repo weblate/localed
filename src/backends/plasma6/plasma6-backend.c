@@ -10,6 +10,7 @@
  */
 
 #include "config.h"
+#include <glib/gi18n-lib.h>
 
 #include <errno.h>
 #include <string.h>
@@ -204,7 +205,7 @@ rcl_plasma6_backend_locale_from_localerc(const gchar *contents, GError **error)
   }
   if (!locale && error && !*error)
     g_set_error_literal(error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_INVALID_VALUE,
-                        "Plasma Translations/LANGUAGE has no valid preference");
+                        _("Plasma Translations/LANGUAGE has no valid preference"));
 out:
   g_strfreev(preferences);
   g_free(language);
