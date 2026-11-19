@@ -86,7 +86,7 @@ rcl_xkb_tokenize_line ( const gchar *line, GError **error )
         if( *p == '\n' || *p == '\r' )
         {
           g_set_error_literal( error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
-                               "unterminated quoted string in Xorg configuration" );
+                               _("unterminated quoted string in Xorg configuration") );
           g_string_free( token, TRUE );
           g_ptr_array_unref( tokens );
           return NULL;
@@ -100,7 +100,7 @@ rcl_xkb_tokenize_line ( const gchar *line, GError **error )
         if( *p == '"' )
         {
           g_set_error_literal( error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
-                               "unexpected quote in unquoted Xorg token" );
+                               _("unexpected quote in unquoted Xorg token") );
           g_string_free( token, TRUE );
           g_ptr_array_unref( tokens );
           return NULL;
@@ -112,7 +112,7 @@ rcl_xkb_tokenize_line ( const gchar *line, GError **error )
     if( quoted )
     {
       g_set_error_literal( error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
-                           "unterminated quoted string in Xorg configuration" );
+                           _("unterminated quoted string in Xorg configuration") );
       g_string_free( token, TRUE );
       g_ptr_array_unref( tokens );
       return NULL;
@@ -127,7 +127,7 @@ rcl_xkb_tokenize_line ( const gchar *line, GError **error )
     if( was_quoted && *p != '\0' && !g_ascii_isspace( *p ) && *p != '#' )
     {
       g_set_error_literal( error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
-                           "unexpected character after quoted Xorg token" );
+                           _("unexpected character after quoted Xorg token") );
       g_ptr_array_unref( tokens );
       return NULL;
     }
@@ -360,14 +360,14 @@ rcl_xkb_config_parse ( const gchar *contents,
       if( in_section )
       {
         g_set_error_literal( error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
-                             "nested Section in Xorg configuration" );
+                             _("nested Section in Xorg configuration") );
         g_strfreev( tokens );
         goto fail;
       }
       if( n != 2 )
       {
         g_set_error_literal( error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
-                             "malformed Section directive in Xorg configuration" );
+                             _("malformed Section directive in Xorg configuration") );
         g_strfreev( tokens );
         goto fail;
       }
@@ -383,7 +383,7 @@ rcl_xkb_config_parse ( const gchar *contents,
       if( !in_section || n != 1 )
       {
         g_set_error_literal( error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
-                             "unmatched or malformed EndSection directive" );
+                             _("unmatched or malformed EndSection directive") );
         g_strfreev( tokens );
         goto fail;
       }
@@ -394,7 +394,7 @@ rcl_xkb_config_parse ( const gchar *contents,
         if( malformed_identifier || malformed_option )
         {
           g_set_error_literal( error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
-                               "malformed Identifier or Option in owned Xorg InputClass" );
+                               _("malformed Identifier or Option in owned Xorg InputClass") );
           g_strfreev( tokens );
           goto fail;
         }
@@ -457,7 +457,7 @@ rcl_xkb_config_parse ( const gchar *contents,
   if( in_section )
   {
     g_set_error_literal( error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
-                         "unterminated Section in Xorg configuration" );
+                         _("unterminated Section in Xorg configuration") );
     goto fail;
   }
 
