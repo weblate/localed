@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-22 02:34+0200\n"
+"POT-Creation-Date: 2026-10-21 19:38-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -13,9 +13,182 @@ msgstr ""
 "X-Generator: Translate Toolkit 3.20.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-# Supported language codes, one per line.
-# Add a code here and create the matching po/<code>.po file to enable it.
-# Example:
-# de
-# fr
-# es
+#: data/org.freedesktop.locale1.policy:9
+msgid "Set the system locale"
+msgstr ""
+
+#: data/org.freedesktop.locale1.policy:10
+msgid "Authentication is required to set the system locale."
+msgstr ""
+
+#: data/org.freedesktop.locale1.policy:19
+msgid "Set the keyboard layout and model"
+msgstr ""
+
+#: data/org.freedesktop.locale1.policy:20
+msgid "Authentication is required to set the keyboard layout and model."
+msgstr ""
+
+#: src/main.c
+msgid "Replace existing daemon"
+msgstr ""
+
+#: src/main.c
+msgid "Verbose output"
+msgstr ""
+
+#: src/main.c
+msgid "Debug output (implies verbose)"
+msgstr ""
+
+#: src/backends/input-sources-helper.c
+msgid ""
+"localed-input-sources-helper: no desktop input-source backend was selected"
+msgstr ""
+
+#: src/rcl-locale.c:468 src/rcl-locale.c:658 src/rcl-locale.c:1029
+#: src/rcl-locale.c:1204
+msgid "mkdir -p %s: %s"
+msgstr ""
+
+#: src/rcl-locale.c:491 src/rcl-locale.c:683 src/rcl-locale.c:780
+#: src/rcl-locale.c:1141 src/rcl-locale.c:1244
+msgid "create temporary file for %s: %s"
+msgstr ""
+
+#: src/rcl-locale.c:522 src/rcl-locale.c:708 src/rcl-locale.c:806
+#: src/rcl-locale.c:1170 src/rcl-locale.c:1263
+msgid "rename(%s, %s): %s"
+msgstr ""
+
+#: src/rcl-locale.c:764
+msgid "unlink(%s): %s"
+msgstr ""
+
+#: src/rcl-locale.c:1758
+msgid "Invalid locale value from AccountsService"
+msgstr ""
+
+#: src/rcl-locale.c:1936
+msgid "Invalid console keyboard configuration value"
+msgstr ""
+
+#: src/rcl-locale.c:1968
+msgid "Invalid X11 keyboard configuration value"
+msgstr ""
+
+#: src/rcl-locale.c:2321
+msgid "Unknown property '%s'"
+msgstr ""
+
+#: src/rcl-locale.c:2337
+msgid "Property '%s' is read-only; use the Set* methods"
+msgstr ""
+
+#: src/rcl-xkb-config.c:89 src/rcl-xkb-config.c:115
+msgid "unterminated quoted string in Xorg configuration"
+msgstr ""
+
+#: src/rcl-xkb-config.c:103
+msgid "unexpected quote in unquoted Xorg token"
+msgstr ""
+
+#: src/rcl-xkb-config.c:130
+msgid "unexpected character after quoted Xorg token"
+msgstr ""
+
+#: src/rcl-xkb-config.c:363
+msgid "nested Section in Xorg configuration"
+msgstr ""
+
+#: src/rcl-xkb-config.c:370
+msgid "malformed Section directive in Xorg configuration"
+msgstr ""
+
+#: src/rcl-xkb-config.c:386
+msgid "unmatched or malformed EndSection directive"
+msgstr ""
+
+#: src/rcl-xkb-config.c:397
+msgid "malformed Identifier or Option in owned Xorg InputClass"
+msgstr ""
+
+#: src/rcl-xkb-config.c:460
+msgid "unterminated Section in Xorg configuration"
+msgstr ""
+
+#: src/rcl-file-transaction.c:48
+msgid "remove temporary file %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:93
+msgid "close temporary file for %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:161
+msgid "file %s appeared while its snapshot was being opened"
+msgstr ""
+
+#: src/rcl-file-transaction.c:177
+msgid "open snapshot %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:185
+msgid "stat snapshot %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:200
+msgid "read snapshot %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:225
+msgid "file %s was removed while its snapshot was being read"
+msgstr ""
+
+#: src/rcl-file-transaction.c:229
+msgid "stat snapshot path %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:239
+msgid "file %s was replaced while its snapshot was being read"
+msgstr ""
+
+#: src/rcl-file-transaction.c:254
+msgid "re-stat snapshot %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:268
+msgid "file %s changed while its snapshot was being read"
+msgstr ""
+
+#: src/rcl-file-transaction.c:285
+msgid "close snapshot %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:311
+msgid "remove %s during rollback: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:328
+msgid "create rollback temporary file for %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:341
+msgid "close rollback temporary file %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:360
+msgid "restore ownership on temporary file for %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:367
+msgid "restore permissions on temporary file for %s: %s"
+msgstr ""
+
+#: src/rcl-file-transaction.c:373
+msgid "rollback rename(%s, %s): %s"
+msgstr ""
+
+#: src/backends/plasma6/plasma6-backend.c:208
+msgid "Plasma Translations/LANGUAGE has no valid preference"
+msgstr ""
