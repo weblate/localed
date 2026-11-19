@@ -30,3 +30,19 @@ msgstr ""
 #: data/org.freedesktop.locale1.policy:20
 msgid "Authentication is required to set the keyboard layout and model."
 msgstr ""
+
+#: src/main.c
+msgid "Replace existing daemon"
+msgstr ""
+
+#: src/main.c
+msgid "Verbose output"
+msgstr ""
+
+#: src/main.c
+msgid "Debug output (implies verbose)"
+msgstr ""
+
+#: src/backends/input-sources-helper.c
+msgid "localed-input-sources-helper: no desktop input-source backend was selected"
+msgstr ""
