@@ -521,16 +521,19 @@ gint main(gint argc, gchar **argv)
 
   const GOptionEntry options[] =
   {
-    { "replace", 'r', 0, G_OPTION_ARG_NONE, &replace, "Replace existing daemon",        NULL },
-    { "verbose", 'v', 0, G_OPTION_ARG_NONE, &verbose, "Verbose output",                 NULL },
-    { "debug",   'd', 0, G_OPTION_ARG_NONE, &debug,   "Debug output (implies verbose)", NULL },
+    { "replace", 'r', 0, G_OPTION_ARG_NONE, &replace, N_("Replace existing daemon"),        NULL },
+    { "verbose", 'v', 0, G_OPTION_ARG_NONE, &verbose, N_("Verbose output"),                 NULL },
+    { "debug",   'd', 0, G_OPTION_ARG_NONE, &debug,   N_("Debug output (implies verbose)"), NULL },
     { NULL }
   };
 
   setlocale(LC_ALL, "");
+  bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+  textdomain(GETTEXT_PACKAGE);
 
   context = g_option_context_new("");
-  g_option_context_add_main_entries(context, options, NULL);
+  g_option_context_add_main_entries(context, options, GETTEXT_PACKAGE);
 
   if (!g_option_context_parse(context, &argc, &argv, &error))
   {
