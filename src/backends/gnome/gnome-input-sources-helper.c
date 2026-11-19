@@ -138,7 +138,7 @@ rcl_gnome_input_sources_helper_run(void)
   source = g_settings_schema_source_get_default();
   if (!source)
   {
-    g_printerr("no GSettings schema source available\n");
+    g_printerr("%s\n", _("no GSettings schema source available"));
     return 1;
   }
 
@@ -146,7 +146,7 @@ rcl_gnome_input_sources_helper_run(void)
       source, "org.gnome.desktop.input-sources", TRUE);
   if (!schema)
   {
-    g_printerr("GNOME input-sources GSettings schema is unavailable\n");
+    g_printerr("%s\n", _("GNOME input-sources GSettings schema is unavailable"));
     return 1;
   }
 
