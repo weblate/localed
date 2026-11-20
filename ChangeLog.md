@@ -2,6 +2,21 @@
 
 All notable changes to `localed` are documented in this file.
 
+## [0.3.0] - 2026-11-20
+
+Stable release of localed 0.3.0 for Slackware and other non-systemd systems.
+
+### Added
+- Support optional GNOME and KDE Plasma 6 input-source integration through the `desktop-backend` Meson option, with `none` as the default.
+- Expand gettext/Weblate extraction to configuration errors and desktop helper diagnostics.
+
+### Changed
+- Centralize inclusion of GLib gettext macros through Meson compiler arguments.
+- Preserve comma-separated X11 keyboard layouts in `localectl status` output.
+
+### Validation
+- Retain configuration rollback, XKB parsing, D-Bus lifecycle, and desktop-backend regression tests.
+
 ## [0.3.rc1] - 2026-11-15
 
 Follow-up release candidate for localed 0.3.0.
