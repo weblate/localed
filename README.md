@@ -24,6 +24,10 @@ The daemon follows the same general service pattern as
 - Does not require systemd; it uses D-Bus and a logind-compatible session
   manager for desktop session discovery.
 
+The Plasma 6 backend reads the system locale from `[Formats] LANG` in
+`~/.config/plasma-localerc`, not the translation preference list in
+`[Translations] LANGUAGE`. Missing or invalid `LANG` values are skipped.
+
 ## Dependencies
 
 | Library / service | pkg-config name | Minimum version / requirement |

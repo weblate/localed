@@ -2,6 +2,18 @@
 
 All notable changes to `localed` are documented in this file.
 
+## [0.3.1] - 2026-11-23
+
+Maintenance release for Plasma 6 locale synchronization.
+
+### Fixed
+- Read the complete system locale from `[Formats] LANG` in `plasma-localerc` instead of deriving it from `[Translations] LANGUAGE` (PR #11).
+- Preserve locale codesets and modifiers, and skip missing or invalid values rather than constructing an incorrect locale such as `ru.UTF-8` from `ru:en_US`.
+- Retain the existing synchronization and authorization mechanisms.
+
+### Tests
+- Update Plasma locale parser regression coverage for complete locale identifiers, missing values, and invalid values.
+
 ## [0.3.0] - 2026-11-20
 
 Stable release of localed 0.3.0 for Slackware and other non-systemd systems.
