@@ -189,6 +189,46 @@ msgstr ""
 msgid "rollback rename(%s, %s): %s"
 msgstr ""
 
-#: src/backends/plasma6/plasma6-backend.c:208
-msgid "Plasma Translations/LANGUAGE has no valid preference"
+#: src/backends/plasma6/plasma6-backend.c:185
+msgid "Invalid LANG value in Plasma [Formats]"
+msgstr ""
+
+#: src/backends/gnome/gnome-input-sources-helper.c:141
+msgid "no GSettings schema source available"
+msgstr ""
+
+#: src/backends/gnome/gnome-input-sources-helper.c:149
+msgid "GNOME input-sources GSettings schema is unavailable"
+msgstr ""
+
+#: src/backends/plasma6/plasma6-input-sources-helper.c:153
+msgid "could not read Plasma keyboard layouts: %s\n"
+msgstr ""
+
+#: src/backends/plasma6/plasma6-input-sources-helper.c:176
+msgid "Plasma reports no configured keyboard layouts\n"
+msgstr ""
+
+#: src/backends/plasma6/plasma6-input-sources-helper.c:185
+msgid "could not read %s: %s\n"
+msgstr ""
+
+#: src/backends/plasma6/plasma6-input-sources-helper.c:210
+msgid "could not read active Plasma keyboard layout: %s\n"
+msgstr ""
+
+#: src/backends/plasma6/plasma6-input-sources-helper.c:219
+msgid "Plasma active layout index %u is outside layout list of %u\n"
+msgstr ""
+
+#: src/backends/plasma6/plasma6-input-sources-helper.c:347
+msgid "Plasma keyboard service disappeared; waiting for it to return\n"
+msgstr ""
+
+#: src/backends/plasma6/plasma6-input-sources-helper.c:361
+msgid "Plasma session bus closed: %s\n"
+msgstr ""
+
+#: src/backends/plasma6/plasma6-input-sources-helper.c:375
+msgid "could not connect to Plasma session bus: %s\n"
 msgstr ""
