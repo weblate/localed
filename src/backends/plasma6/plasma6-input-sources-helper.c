@@ -150,7 +150,7 @@ emit_snapshot(Plasma6Helper *helper)
       &error);
   if (!reply)
   {
-    g_printerr("could not read Plasma keyboard layouts: %s\n",
+    g_printerr(_("could not read Plasma keyboard layouts: %s\n"),
                error ? error->message : "unknown D-Bus error");
     g_clear_error(&error);
     return;
@@ -173,7 +173,7 @@ emit_snapshot(Plasma6Helper *helper)
 
   if (count == 0)
   {
-    g_printerr("Plasma reports no configured keyboard layouts\n");
+    g_printerr(_ ("Plasma reports no configured keyboard layouts\n"));
     goto out;
   }
 
@@ -182,7 +182,7 @@ emit_snapshot(Plasma6Helper *helper)
   if (!g_key_file_load_from_file(key_file, config_path,
                                  G_KEY_FILE_NONE, &error))
   {
-    g_printerr("could not read %s: %s\n", config_path,
+    g_printerr(_("could not read %s: %s\n"), config_path,
                error ? error->message : "unknown configuration error");
     g_clear_error(&error);
   }
@@ -207,7 +207,7 @@ emit_snapshot(Plasma6Helper *helper)
       &error);
   if (!active_reply)
   {
-    g_printerr("could not read active Plasma keyboard layout: %s\n",
+    g_printerr(_("could not read active Plasma keyboard layout: %s\n"),
                error ? error->message : "unknown D-Bus error");
     g_clear_error(&error);
     goto out;
@@ -216,7 +216,7 @@ emit_snapshot(Plasma6Helper *helper)
   g_variant_get(active_reply, "(u)", &active_index);
   if (active_index >= count)
   {
-    g_printerr("Plasma active layout index %u is outside layout list of %u\n",
+    g_printerr(_("Plasma active layout index %u is outside layout list of %u\n"),
                active_index, count);
     goto out;
   }
@@ -344,7 +344,7 @@ keyboard_name_vanished(GDBusConnection *connection,
     return;
 
   unsubscribe_keyboard_signals(helper);
-  g_printerr("Plasma keyboard service disappeared; waiting for it to return\n");
+  g_printerr(_("Plasma keyboard service disappeared; waiting for it to return\n"));
 }
 
 static void
@@ -358,7 +358,7 @@ session_bus_closed(GDBusConnection *connection,
   (void) connection;
   (void) remote_peer_vanished;
 
-  g_printerr("Plasma session bus closed: %s\n",
+  g_printerr(_("Plasma session bus closed: %s\n"),
              error ? error->message : "connection closed");
   g_main_loop_quit(helper->loop);
 }
@@ -372,7 +372,7 @@ rcl_plasma6_input_sources_helper_run(void)
   helper.connection = g_bus_get_sync(G_BUS_TYPE_SESSION, NULL, &error);
   if (!helper.connection)
   {
-    g_printerr("could not connect to Plasma session bus: %s\n",
+    g_printerr(_("could not connect to Plasma session bus: %s\n"),
                error ? error->message : "unknown error");
     g_clear_error(&error);
     return 1;

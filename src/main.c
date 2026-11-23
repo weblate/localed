@@ -31,7 +31,6 @@
 #include <glib.h>
 #include <glib-unix.h>
 #include <glib-object.h>
-#include <glib/gi18n-lib.h>
 #include <locale.h>
 
 #include "rcl-locale.h"

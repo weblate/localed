@@ -29,7 +29,6 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 #include <glib-object.h>
-#include <glib/gi18n-lib.h>
 
 #include "rcl-locale.h"
 #include "rcl-file-utils.h"

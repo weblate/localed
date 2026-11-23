@@ -1,7 +1,7 @@
 project(
   'localed',
   'c',
-  version         : '0.3.rc1',
+  version         : '0.3.0',
   license         : 'GPL-2.0-or-later',
   meson_version   : '>= 0.58.0',
   default_options : [
@@ -66,6 +66,14 @@ polkit = dependency('polkit-gobject-1', version : '>= 0.113')
 i18n = import('i18n')
 
 gettext_package = meson.project_name()
+# Make gettext macros available in all C translation units, including tests.
+# GETTEXT_PACKAGE is defined by the project compiler arguments below.
+add_project_arguments(
+  '-DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_56',
+  '-DGLIB_VERSION_MAX_ALLOWED=GLIB_VERSION_2_56',
+  '-include', 'glib/gi18n-lib.h',
+  language : 'c',
+)
 add_project_arguments(
   '-DGETTEXT_PACKAGE="@0@"'.format(gettext_package),
   language : 'c',
@@ -105,8 +113,6 @@ endif
 conf.set_quoted('RCL_INPUT_SOURCES_HELPER',
                 join_paths(input_sources_helper_dir, 'localed-input-sources-helper'))
 
-conf.set('GLIB_VERSION_MIN_REQUIRED', 'GLIB_VERSION_2_56')
-conf.set('GLIB_VERSION_MAX_ALLOWED',  'GLIB_VERSION_2_56')
 
 configure_file(
   output        : 'config.h',

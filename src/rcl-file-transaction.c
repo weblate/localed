@@ -10,7 +10,6 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #ifdef RCL_FILE_TRANSACTION_TESTING
 static RclFileTransactionTestOps test_ops;
