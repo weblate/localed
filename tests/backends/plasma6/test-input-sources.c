@@ -11,37 +11,54 @@
 #include "plasma6-backend.h"
 
 static void
-test_plasma6_translation_language(void)
+test_plasma6_formats_lang(void)
 {
-  const struct { const gchar *input; const gchar *expected; } cases[] = {
-    { "es:en_GB:en_US", "es.UTF-8" },
-    { "en_GB", "en_GB.UTF-8" },
-    { "cz:en_US", "cz.UTF-8" },
-    { "es.UTF-8:en_GB", "es.UTF-8" },
-    { ":es:en_GB", "es.UTF-8" },
-  };
+  const gchar *locales[] = { "ru_RU.UTF-8", "sr_RS.UTF-8@latin", "C" };
   guint i;
-  for (i = 0; i < G_N_ELEMENTS(cases); i++)
+
+  for (i = 0; i < G_N_ELEMENTS(locales); i++)
   {
-    gchar *contents = g_strdup_printf("[Formats]\nLANG=en_US.UTF-8\n\n[Translations]\nLANGUAGE=%s\n", cases[i].input);
-    GError *error = NULL;
-    gchar *locale = rcl_plasma6_backend_locale_from_localerc(contents, &error);
+    g_autofree gchar *contents = g_strdup_printf(
+        "[Formats]\nLANG=%s\n\n[Translations]\nLANGUAGE=ru:en_US\n",
+        locales[i]);
+    g_autoptr(GError) error = NULL;
+    g_autofree gchar *locale =
+        rcl_plasma6_backend_locale_from_localerc(contents, &error);
+
     g_assert_no_error(error);
-    g_assert_cmpstr(locale, ==, cases[i].expected);
-    g_free(locale);
-    g_free(contents);
+    g_assert_cmpstr(locale, ==, locales[i]);
   }
 }
 
 static void
-test_plasma6_translation_language_invalid(void)
+test_plasma6_formats_lang_missing(void)
 {
-  GError *error = NULL;
-  gchar *locale = rcl_plasma6_backend_locale_from_localerc(
-      "[Translations]\nLANGUAGE=es;touch /tmp/pwned\n", &error);
+  g_autoptr(GError) error = NULL;
+  g_autofree gchar *locale = rcl_plasma6_backend_locale_from_localerc(
+      "[Formats]\nLC_TIME=en_US.UTF-8\n[Translations]\nLANGUAGE=ru:en_US\n",
+      &error);
+
   g_assert_null(locale);
-  g_assert_error(error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_INVALID_VALUE);
-  g_clear_error(&error);
+  g_assert_error(error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_KEY_NOT_FOUND);
+}
+
+static void
+test_plasma6_formats_lang_invalid(void)
+{
+  const gchar *values[] = { "", "ru:en_US", "ru_RU.UTF-8 # comment" };
+  guint i;
+
+  for (i = 0; i < G_N_ELEMENTS(values); i++)
+  {
+    g_autofree gchar *contents = g_strdup_printf("[Formats]\nLANG=%s\n",
+                                                  values[i]);
+    g_autoptr(GError) error = NULL;
+    g_autofree gchar *locale =
+        rcl_plasma6_backend_locale_from_localerc(contents, &error);
+
+    g_assert_null(locale);
+    g_assert_error(error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_INVALID_VALUE);
+  }
 }
 
 static void
@@ -153,8 +170,11 @@ int
 main(int argc, char **argv)
 {
   g_test_init(&argc, &argv, NULL);
-  g_test_add_func("/plasma6/translation-language", test_plasma6_translation_language);
-  g_test_add_func("/plasma6/translation-language-invalid", test_plasma6_translation_language_invalid);
+  g_test_add_func("/plasma6/formats-lang", test_plasma6_formats_lang);
+  g_test_add_func("/plasma6/formats-lang-missing",
+                  test_plasma6_formats_lang_missing);
+  g_test_add_func("/plasma6/formats-lang-invalid",
+                  test_plasma6_formats_lang_invalid);
   g_test_add_func("/plasma6/layout-names-signature",
                   test_plasma6_layout_names_signature);
   g_test_add_func("/plasma6/snapshot-format",

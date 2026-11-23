@@ -187,8 +187,8 @@ msgstr ""
 msgid "rollback rename(%s, %s): %s"
 msgstr ""
 
-#: src/backends/plasma6/plasma6-backend.c:208
-msgid "Plasma Translations/LANGUAGE has no valid preference"
+#: src/backends/plasma6/plasma6-backend.c:185
+msgid "Invalid LANG value in Plasma [Formats]"
 msgstr ""
 
 #: src/backends/gnome/gnome-input-sources-helper.c:141

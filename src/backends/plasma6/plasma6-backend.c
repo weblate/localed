@@ -160,56 +160,33 @@ plasma6_console_keymap_lookup(const gchar *layout, const gchar *variant)
 gchar *
 rcl_plasma6_backend_locale_from_localerc(const gchar *contents, GError **error)
 {
-  GKeyFile *key_file;
-  gchar *language = NULL;
-  gchar **preferences = NULL;
-  gchar *locale = NULL;
-  guint i;
+  g_autoptr(GKeyFile) key_file = NULL;
+  g_autofree gchar *locale = NULL;
+  const gchar *p;
 
   g_return_val_if_fail(contents != NULL, NULL);
   key_file = g_key_file_new();
   if (!g_key_file_load_from_data(key_file, contents, -1, G_KEY_FILE_NONE, error))
-    goto out;
-  language = g_key_file_get_string(key_file, "Translations", "LANGUAGE", error);
-  if (!language)
-    goto out;
-  preferences = g_strsplit(language, ":", -1);
-  for (i = 0; preferences[i]; i++)
+    return NULL;
+
+  locale = g_key_file_get_string(key_file, "Formats", "LANG", error);
+  if (!locale)
+    return NULL;
+
+  /* LANG is a single locale identifier. Keep its codeset and modifier. */
+  for (p = locale; *p; p++)
+    if (!(g_ascii_isalnum(*p) || *p == '_' || *p == '-' ||
+          *p == '.' || *p == '@'))
+      break;
+
+  if (p == locale || *p || p - locale > 128)
   {
-    gchar *candidate = g_strstrip(preferences[i]);
-    const gchar *p;
-    if (!*candidate)
-      continue;
-    for (p = candidate; *p; p++)
-      if (!(g_ascii_isalnum(*p) || *p == '_' || *p == '-' ||
-            *p == '.' || *p == '@'))
-        break;
-    if (*p || strlen(candidate) > 128)
-      continue;
-    {
-      gchar *base = g_strdup(candidate);
-      gchar *encoding = strchr(base, '.');
-      gchar *modifier = strchr(base, '@');
-
-      /* plasma-localerc normally stores bare language IDs. If an encoding
-       * was supplied, discard it: Slackware output is always UTF-8. */
-      if (encoding && (!modifier || encoding < modifier))
-        memmove(encoding, modifier ? modifier : encoding + strlen(encoding),
-                modifier ? strlen(modifier) + 1 : 1);
-
-      locale = g_strconcat(base, ".UTF-8", NULL);
-      g_free(base);
-    }
-    break;
-  }
-  if (!locale && error && !*error)
     g_set_error_literal(error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_INVALID_VALUE,
-                        _("Plasma Translations/LANGUAGE has no valid preference"));
-out:
-  g_strfreev(preferences);
-  g_free(language);
-  g_key_file_unref(key_file);
-  return locale;
+                        _("Invalid LANG value in Plasma [Formats]"));
+    return NULL;
+  }
+
+  return g_steal_pointer(&locale);
 }
 
 typedef struct
@@ -246,12 +223,12 @@ plasma_locale_call_cb(GObject *source_object,
     g_variant_unref(reply);
     g_free(self->last_locale);
     self->last_locale = g_strdup(call->locale);
-    g_debug("synchronized Plasma 6 translation language: LANG=%s",
+    g_debug("synchronized Plasma 6 locale: LANG=%s",
             call->locale);
   }
   else if (!g_error_matches(error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
   {
-    g_warning("could not synchronize Plasma 6 translation language: %s",
+    g_warning("could not synchronize Plasma 6 locale: %s",
               error ? error->message : "unknown D-Bus error");
   }
   g_clear_error(&error);
@@ -290,7 +267,7 @@ sync_plasma_locale(RclPlasma6Backend *self)
   locale = rcl_plasma6_backend_locale_from_localerc(contents, &error);
   if (!locale)
   {
-    g_debug("Plasma locale configuration has no usable translation language: %s",
+    g_debug("Plasma locale configuration has no usable Formats/LANG value: %s",
             error ? error->message : "unknown configuration error");
     g_clear_error(&error);
     goto out;
